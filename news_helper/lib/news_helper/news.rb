@@ -1,0 +1,3 @@
+class NewsHelper::News
+    
+end
