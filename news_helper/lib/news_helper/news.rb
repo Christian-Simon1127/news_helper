@@ -27,7 +27,27 @@ class NewsHelper::News
   		end
   	} 
   
+  	cnn.css(".cnn-search__result .cnn-search_result--article").each_with_index(0) {|section, i|
+  		if i < 5
+  			article = self.new
+  			article.headline = cnn.css("cnn-search__result-headline").text.strip
+  			article.publish_date = bus.css(".cnn-search__result-publish-date").text.strip 
+  			article.url = "https://www.cnn.com" + cnn.css("cnn-search__result-headline").attribute("href").value.strip
+  			tech_news << article
+  		end
+  	}
   
+  	fox.css(*css tags for headlines*).each_with_index(0) {|section, i|
+  		if i < 5
+  			article = self.new
+  			article.headline = fox.css(".title").text.strip
+  			article.publish_date = bus.css(".time").text.strip
+  			article.url = "https://www.foxnews.com" + fox.css(".title").attribute("href").value.strip
+  			tech_news << article
+  		end
+  	}
+  	tech_news
+  end
   
   
   
