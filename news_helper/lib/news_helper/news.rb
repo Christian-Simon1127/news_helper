@@ -90,7 +90,7 @@ class NewsHelper::News
   def self.scrape_political_sites 
   	tech_news = [] 
   	bus = Nokogiri::HTML(open("https://www.businessinsider.com/s?q=politics"))
-  	cnn = Nokogiri::HTML(open("https://www.cnn.com/politics"))
+  	cnn = Nokogiri::HTML(open("https://www.cnn.com/search?q=politics"))
   	fox = Nokogiri::HTML(open("https://www.foxnews.com/politics/"))
   	
   	bus.css(".river-item .featured-post").each_with_index(0) {|section, i|
