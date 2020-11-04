@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "news_helper"
+require "news_helper.rb"
 
 NewsHelper::CLI.new.start
