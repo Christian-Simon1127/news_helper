@@ -16,18 +16,11 @@ class NewsHelper::News
   	cnn = Nokogiri::HTML(URI.open("https://www.cnn.com/search?q=tech&size=5&sort=newest"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/tech/"))
   	#Below, every news site will have their articles stored below. It will store all of the 
-  	#articles on the page before they are sorted and capped at 5 per website.
-  	bus_news = []
+  	#articles on the page before they are sorted and capped at 5 per website. Thanks to the consistency 
+  	#of the page's CSS, it is easy to use one method to scrape multiple pages of the same site.
+  	bus_news = scrape_bus_ins(bus)
   	cnn_news = []
   	fox_news = []
-  	
-  	bus.css(".river-item.featured-post").each {|section|
-  			article = self.new 
-  			article.headline = section.css("a.tout-title-link").text.strip
-  			article.publish_date = section.css("span.tout-timestamp.headline-regular.js-date-format.js-rendered").text
-  			article.url = "https://www.businessinsider.com" + section.css("a.tout-title-link").attribute("href").value.strip
-  			bus_news << article
-  	} 
   
   	cnn.css(".cnn-search__result .cnn-search_result--article").each {|section|
   			article = self.new
@@ -86,13 +79,7 @@ class NewsHelper::News
   	cnn = Nokogiri::HTML(URI.open("https://www.cnn.com/search?q=politics"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/politics/"))
   	
-  	bus.css("#l-content").each_with_index {|section|
-  			article = self.new 
-  			article.headline = bus.css("a .tout-title-link").text.strip
-  			article.publish_date = bus.css(".tout-timestamp .headline-regular .js-date-format .js-rendered").text.strip
-  			article.url = "https://www.businessinsider.com" + bus.css("a.tout-title-link").attribute("href").value.strip
-  			poli_news << article
-  	} 
+  	scrape_bus_ins(bus)
   
   	cnn.css(".cnn-search__result .cnn-search_result--article").each_with_index {|section, i|
   			article = self.new
@@ -112,8 +99,16 @@ class NewsHelper::News
   	poli_news
   end
   
-  def self.scrape_bus_ins(url)
-    
+  def self.scrape_bus_ins(bus_page)
+    scraped_news = []
+  	bus_page.css(".river-item.featured-post").each {|section|
+  			article = self.new 
+  			article.headline = section.css("a.tout-title-link").text.strip
+  			article.publish_date = section.css("span.tout-timestamp").text.split("T")[0]
+  			article.url = "https://www.businessinsider.com" + section.css("a.tout-title-link").attribute("href").value.strip
+  			scraped_news << article
+  	} 
+  	scraped_news
   end
   
   
