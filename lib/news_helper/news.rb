@@ -20,24 +20,16 @@ class NewsHelper::News
   	#of the page's CSS, it is easy to use one method to scrape multiple pages of the same site.
   	bus_news = scrape_bus_ins(bus)
   	cnn_news = []
-  	fox_news = []
+  	fox_news = scrape_fox_news(fox)
   
-  	cnn.css(".cnn-search__result .cnn-search_result--article").each {|section|
+  	cnn.css(".cnn-search__result--article").each {|section|
   			article = self.new
-  			article.headline = cnn.css("cnn-search__result-headline").text.strip
-  			article.publish_date = bus.css(".cnn-search__result-publish-date").text.strip 
-  			article.url = "https://www.cnn.com" + cnn.css("cnn-search__result-headline").attribute("href").value.strip
+  			article.headline = section.css("cnn-search__result-headline").text.strip
+  			article.publish_date = section.css(".cnn-search__result-publish-date").text.strip 
+  			article.url = "https://www.cnn.com" + section.css("cnn-search__result-headline").attribute("href").value.strip
   			cnn_news << article
   	}
   
-  	fox.css("article .article").each {|section|
-  			article = self.new
-  			article.headline = fox.css(".title").text.strip
-  			article.publish_date = bus.css(".time").text.strip
-  			article.url = "https://www.foxnews.com" + fox.css(".title").attribute("href").value.strip
-  			fox_news << article
-  	}
-  	
   	sort_news(bus_news, cnn_news, fox_news)
   end
   
@@ -47,13 +39,9 @@ class NewsHelper::News
   	cnn = Nokogiri::HTML(URI.open("https://www.cnn.com/health"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/health"))
   	
-  	bus.css("#l-content").each_with_index {|section|
-  			article = self.new 
-  			article.headline = bus.css("a .tout-title-link").text.strip
-  			article.publish_date = bus.css(".tout-timestamp .headline-regular .js-date-format .js-rendered").text.strip
-  			article.url = "https://www.businessinsider.com" + bus.css("a.tout-title-link").attribute("href").value.strip
-  			tech_news << article
-  	} 
+  	bus_news = scrape_bus_ins(bus)
+  	cnn_news = []
+  	fox_news = []
   
   	cnn.css(".cnn-search__result .cnn-search_result--article").each_with_index {|section|
   			article = self.new
@@ -79,7 +67,9 @@ class NewsHelper::News
   	cnn = Nokogiri::HTML(URI.open("https://www.cnn.com/search?q=politics"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/politics/"))
   	
-  	scrape_bus_ins(bus)
+  	bus_news = scrape_bus_ins(bus)
+  	cnn_news = []
+  	fox_news = []
   
   	cnn.css(".cnn-search__result .cnn-search_result--article").each_with_index {|section, i|
   			article = self.new
@@ -100,7 +90,7 @@ class NewsHelper::News
   end
   
   def self.scrape_bus_ins(bus_page)
-    scraped_news = []
+    scraped_news = [] #To hold and return the News objects
   	bus_page.css(".river-item.featured-post").each {|section|
   			article = self.new 
   			article.headline = section.css("a.tout-title-link").text.strip
@@ -110,6 +100,18 @@ class NewsHelper::News
   	} 
   	scraped_news
   end
+  
+  def self.scrape_fox_news(fox_page)
+    scraped_news = []
+  	fox_page.css("article.article").each {|section|
+  			article = self.new
+  			article.headline = section.css(".title").text.strip
+  			article.publish_date = section.css(".time").text.strip
+  			article.url = "https://www.foxnews.com" + section.css(".m").css("a").attribute("href").value.strip
+        scraped_news << article
+  	}
+  	scraped_news
+  end 
   
   
   def self.sort_news(source_1, source_2, source_3)
