@@ -19,12 +19,27 @@ class NewsHelper::CLI
         @news[0].each_with_index { |article, i| 
           puts "\n#{i+1}: #{article.headline}, #{article.publish_date} \n#{article.url}\n"
         }
+      elsif answer == '2'
+        @news[1].each_with_index { |article, i| 
+          puts "\n#{i+1}: #{article.headline}, #{article.publish_date} \n#{article.url}\n"
+        }
+      elsif answer == '3'
+        @news[2].each_with_index { |article, i| 
+          puts "\n#{i+1}: #{article.headline}, #{article.publish_date} \n#{article.url}\n"
+        }
+      elsif answer == "list"
+        display_news
+      elsif answer.downcase == "exit"
+        puts ""
+        answer = "exit"
+      else 
+        puts "Sorry, that isn't a valid command, please re-enter your answer."
       end
     end
   end 
   
   def farewell
-    
+    puts "Thank you for using News_Helper! Come back later when there's more news!"
   end 
   
   
