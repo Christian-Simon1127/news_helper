@@ -19,7 +19,6 @@ class NewsHelper::News
   end
   
   def self.scrape_health_sites 
-  	health_news = []
   	bus = Nokogiri::HTML(URI.open("https://www.businessinsider.com/healthcare")) 
   	google = Nokogiri::HTML(URI.open("https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRFU0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US%3Aen"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/health"))
@@ -28,7 +27,6 @@ class NewsHelper::News
   end  
   
   def self.scrape_political_sites 
-  	poli_news = [] 
   	bus = Nokogiri::HTML(URI.open("https://www.businessinsider.com/s?q=politics"))
   	google = Nokogiri::HTML(URI.open("https://news.google.com/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNRFZ4ZERBU0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US%3Aen"))
   	fox = Nokogiri::HTML(URI.open("https://www.foxnews.com/politics/"))
@@ -49,6 +47,7 @@ class NewsHelper::News
   end
   
   def self.scrape_google_news(google_page)
+    scraped_news = []
   	google_page.css(".xrnccd.F6Welf.R7GTQ.keNKEd.j7vNaf").each {|section|
   			article = self.new
   			article.headline = section.css("a.DY5T1d").first.text
@@ -60,6 +59,7 @@ class NewsHelper::News
   end
   
   def self.scrape_fox_news(fox_page)
+    scraped_news = []
     articles = fox_page.css(".content.article-list") #This is to avoid some more off-topic articles at the top of the page
   	articles.css("article.article").each {|section|
   			article = self.new
