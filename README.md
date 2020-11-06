@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Once started with the .start method, news_helper will ask you what topic you are most interested in out of the three given: Tech, Health and Politics. Answering with "1" will give you 15 articles equally distributed from Business Insider, CNN and Fox News for a wide range of views and news. The same process will take place when given a "2" or "3" for Health and Politics respectively. After being shown the articles of your choice, you can input "y" for a direct url to the articles, while replying "n" will take you back to the main menu. You can exit whenever you want by typing "exit", where the program will then shut down.
+Once started with the .start method, news_helper will ask you what topic you are most interested in out of the three given: Tech, Health and Politics. Answering with "1" will give you 15 articles equally distributed from Business Insider, Google and Fox News for a wide range of views and news. The same process will take place when given a "2" or "3" for Health and Politics respectively. After being shown the articles of your choice, you can input "y" for a direct url to the articles, while replying "n" will take you back to the main menu. You can exit whenever you want by typing "exit", where the program will then shut down.
 
 ## Development
 
