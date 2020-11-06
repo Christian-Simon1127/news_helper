@@ -49,7 +49,6 @@ class NewsHelper::News
   end
   
   def self.scrape_google_news(google_page)
-    scraped_news = []
   	google_page.css(".xrnccd.F6Welf.R7GTQ.keNKEd.j7vNaf").each {|section|
   			article = self.new
   			article.headline = section.css("a.DY5T1d").first.text
@@ -61,7 +60,6 @@ class NewsHelper::News
   end
   
   def self.scrape_fox_news(fox_page)
-    scraped_news = []
     articles = fox_page.css(".content.article-list") #This is to avoid some more off-topic articles at the top of the page
   	articles.css("article.article").each {|section|
   			article = self.new
