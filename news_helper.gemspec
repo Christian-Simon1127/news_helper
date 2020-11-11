@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "news_helper"
-  spec.version       = "0.1.0"
+  spec.version       = "0.1.1"
   spec.authors       = ["'Christian Simon'"]
   spec.email         = ["'csimon1127@gmail.com'"]
 
@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "nokogiri"
-  spec.add_development_dependency "open-uri"
+  spec.add_development_dependency "pry", "~> 0.13.1"
+  spec.add_development_dependency "nokogiri", "~> 1.10.10"
+  spec.add_development_dependency "open-uri", "~> 0.1.0"
 end
